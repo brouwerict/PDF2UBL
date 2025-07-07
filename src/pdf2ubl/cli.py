@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 import logging
 
+from . import __version__
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -15,6 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 @click.group()
+@click.version_option(version=__version__, prog_name="PDF2UBL")
 def cli():
     """PDF2UBL - Convert PDF invoices to UBL XML format."""
     pass
@@ -31,7 +34,7 @@ def gui(host, port, reload):
         click.echo("Error: uvicorn not installed. Install with: pip install uvicorn")
         sys.exit(1)
     
-    click.echo("Starting PDF2UBL Web GUI...")
+    click.echo(f"Starting PDF2UBL Web GUI v{__version__}...")
     
     # Import the FastAPI app
     from .gui.web.main import app

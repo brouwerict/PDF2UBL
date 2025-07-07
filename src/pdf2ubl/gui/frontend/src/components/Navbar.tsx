@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   AppBar, 
   Toolbar, 
@@ -18,11 +18,20 @@ import {
   MoreVert
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { apiService } from '../services/api';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [version, setVersion] = useState('1.1.0');
+
+  useEffect(() => {
+    // Fetch version from API
+    apiService.getInfo()
+      .then(info => setVersion(info.version))
+      .catch(() => setVersion('1.1.0')); // Fallback
+  }, []);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -133,7 +142,7 @@ const Navbar: React.FC = () => {
             ml: 2 
           }}
         >
-          v1.0.0
+          v{version}
         </Typography>
       </Toolbar>
     </AppBar>

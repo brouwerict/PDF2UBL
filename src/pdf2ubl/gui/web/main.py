@@ -11,6 +11,7 @@ from typing import List, Optional
 from ...api.templates import router as templates_router
 from ...api.conversion import router as conversion_router
 from ...api.ml import router as ml_router
+from ... import __version__
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +21,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="PDF2UBL GUI",
     description="Web interface for PDF2UBL - Convert PDF invoices to UBL XML",
-    version="1.0.0",
+    version=__version__,
     docs_url="/api/docs",
     redoc_url="/api/redoc"
 )
@@ -73,7 +74,7 @@ async def read_root():
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>PDF2UBL GUI</h1>
+                    <h1>PDF2UBL GUI v{__version__}</h1>
                     <p>Web interface for PDF invoice to UBL XML conversion</p>
                 </div>
                 
@@ -119,7 +120,7 @@ async def get_info():
     """Get application information."""
     return {
         "name": "PDF2UBL GUI",
-        "version": "1.0.0",
+        "version": __version__,
         "description": "Web interface for PDF2UBL conversion",
         "endpoints": {
             "templates": "/api/templates",
@@ -127,6 +128,11 @@ async def get_info():
             "ml": "/api/ml"
         }
     }
+
+@app.get("/api/version")
+async def get_version():
+    """Get application version."""
+    return {"version": __version__}
 
 if __name__ == "__main__":
     import uvicorn
