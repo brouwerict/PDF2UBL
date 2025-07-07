@@ -397,8 +397,14 @@ async def train_model(request: TrainingRequest):
     """Train ML models with provided data."""
     
     try:
-        # Validate training data path
-        training_path = Path(request.training_data_path)
+        # Sanitize and validate training data path to prevent path traversal
+        training_path = Path(request.training_data_path).resolve()
+        
+        # Ensure the path is within allowed directories (security check)
+        allowed_dirs = [Path("data").resolve(), Path("training").resolve(), Path("models").resolve()]
+        if not any(str(training_path).startswith(str(allowed_dir)) for allowed_dir in allowed_dirs):
+            raise HTTPException(status_code=403, detail="Training data path not allowed")
+        
         if not training_path.exists():
             raise HTTPException(status_code=404, detail="Training data not found")
         
@@ -598,10 +604,17 @@ async def improve_template(
         if not template:
             raise HTTPException(status_code=404, detail="Template not found")
         
-        # Validate sample PDFs
+        # Validate sample PDFs with path sanitization
         sample_paths = []
         for pdf_path in sample_pdfs:
-            path = Path(pdf_path)
+            # Sanitize and validate file path to prevent path traversal
+            path = Path(pdf_path).resolve()
+            
+            # Ensure the path is within allowed directories (security check)
+            allowed_dirs = [Path("samples").resolve(), Path("tests").resolve(), Path("uploads").resolve()]
+            if not any(str(path).startswith(str(allowed_dir)) for allowed_dir in allowed_dirs):
+                raise HTTPException(status_code=403, detail=f"Sample PDF path not allowed: {pdf_path}")
+            
             if not path.exists():
                 raise HTTPException(status_code=404, detail=f"Sample PDF not found: {pdf_path}")
             sample_paths.append(path)

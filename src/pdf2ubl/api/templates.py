@@ -321,7 +321,14 @@ async def get_template_stats(template_manager: TemplateManager = Depends(get_tem
 async def import_templates(file_path: str, template_manager: TemplateManager = Depends(get_template_manager)):
     """Import templates from a file."""
     try:
-        import_path = Path(file_path)
+        # Sanitize and validate file path to prevent path traversal
+        import_path = Path(file_path).resolve()
+        
+        # Ensure the path is within allowed directories (security check)
+        allowed_dirs = [Path("templates").resolve(), Path("imports").resolve()]
+        if not any(str(import_path).startswith(str(allowed_dir)) for allowed_dir in allowed_dirs):
+            raise HTTPException(status_code=403, detail="File path not allowed")
+        
         if not import_path.exists():
             raise HTTPException(status_code=404, detail="Import file not found")
         
