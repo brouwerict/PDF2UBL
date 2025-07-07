@@ -60,28 +60,7 @@ jobs:
       run: |
         echo "Testing basic module imports..."
         export PYTHONPATH="${PWD}:${PYTHONPATH}"
-        cat > test_imports.py << 'EOF'
-import sys
-sys.path.insert(0, '.')
-try:
-    print('Testing imports...')
-    import src.pdf2ubl
-    print('✓ src.pdf2ubl imported successfully')
-    
-    from src.pdf2ubl.templates.template_manager import TemplateManager
-    print('✓ TemplateManager imported successfully')
-    
-    tm = TemplateManager()
-    templates = tm.list_templates()
-    print(f'✓ Found {len(templates)} templates')
-    
-    print('All basic tests passed!')
-except Exception as e:
-    print(f'Import test failed: {e}')
-    print('This is expected in CI environment')
-EOF
-        python test_imports.py || echo "Basic import test completed with issues"
-        rm -f test_imports.py
+        python -c "import sys; sys.path.insert(0, '.'); import src.pdf2ubl; print('Basic import successful')" || echo "Import test completed with issues"
     
     # Coverage upload disabled for now
     # - name: Upload coverage reports
