@@ -4,9 +4,16 @@ set -e  # Exit on any error
 
 echo "🔄 Updating PDF2UBL..."
 
+# Automatically navigate to project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+echo "📁 Navigating to project root: $PROJECT_ROOT"
+cd "$PROJECT_ROOT"
+
 # Check if we're in the right directory
 if [ ! -f "Dockerfile" ]; then
-    echo "❌ Error: Not in PDF2UBL directory. Please cd to the project root."
+    echo "❌ Error: Dockerfile not found. Are you in the PDF2UBL repository?"
     exit 1
 fi
 

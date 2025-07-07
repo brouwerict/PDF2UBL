@@ -1,7 +1,11 @@
 #!/bin/bash
 # Quick PDF2UBL Update - Your current script improved
 echo "🔄 Updating PDF2UBL..."
-cd ~/PDF2UBL
+
+# Navigate to project root from script location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+cd "$PROJECT_ROOT"
 
 echo "📥 Pulling latest code..."
 git pull
