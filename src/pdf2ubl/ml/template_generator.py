@@ -96,10 +96,8 @@ class TemplateGenerator:
                 r'^([A-Z][A-Za-z\s]{5,40})',  # First line company names
                 r'([A-Z][A-Za-z\s]{3,30})'
             ],
-            "line_items": [
-                r'(.+€\s*\d+[.,]\d{2})',  # Lines with amounts
-                r'(\d+\s+.+\s+€\s*\d+[.,]\d{2})',  # Quantity + description + amount
-            ]
+            # Note: line_items should not be extracted as a simple field
+            # It requires table extraction or complex parsing
         }
         
         # Common supplier detection patterns
@@ -217,11 +215,17 @@ class TemplateGenerator:
             
             # Add the field mapping
             if best_value:
-                field_mappings[field_name] = best_value
+                # Special handling for line_items - don't extract as a simple field
+                if field_name == 'line_items':
+                    # Skip line_items in field mappings, will be handled by table extraction
+                    self.logger.info(f"Skipping line_items field mapping - will use table extraction")
+                else:
+                    field_mappings[field_name] = best_value
             else:
                 # Fallback to showing what we're looking for
-                field_mappings[field_name] = f"Looking for {field_name.replace('_', ' ')}"
-                self.logger.warning(f"No value found for {field_name}")
+                if field_name != 'line_items':  # Don't add fallback for line_items
+                    field_mappings[field_name] = f"Looking for {field_name.replace('_', ' ')}"
+                    self.logger.warning(f"No value found for {field_name}")
         
         supplier_pattern_data = []
         for pattern in supplier_patterns:

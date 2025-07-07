@@ -51,8 +51,21 @@ class TemplateEngine:
             field_value, confidence = self._extract_field(rule, raw_text, positioned_text)
             
             if field_value is not None:
-                # Store extracted value
-                setattr(data, rule.field_name, field_value)
+                # Special handling for line_items field
+                if rule.field_name == 'line_items':
+                    # Ensure line_items is always a list
+                    if isinstance(field_value, str):
+                        # Try to parse string as line items
+                        data.line_items = self._parse_line_items_from_string(field_value)
+                    elif isinstance(field_value, list):
+                        data.line_items = field_value
+                    else:
+                        data.line_items = []
+                    self.logger.debug(f"Extracted line_items: {len(data.line_items)} items")
+                else:
+                    # Store extracted value for other fields
+                    setattr(data, rule.field_name, field_value)
+                
                 data.confidence_scores[rule.field_name] = confidence
                 
                 self.logger.debug(f"Extracted {rule.field_name}: {field_value} (confidence: {confidence:.2f})")
@@ -533,6 +546,46 @@ class TemplateEngine:
             scores.append(avg_confidence)
         
         return sum(scores) / len(scores) if scores else 0.0
+    
+    def _parse_line_items_from_string(self, line_items_string: str) -> List[Dict[str, Any]]:
+        """Parse line items from a string representation."""
+        
+        if not line_items_string:
+            return []
+        
+        line_items = []
+        
+        # If the string looks like a subtotal or total, return empty list
+        if any(keyword in line_items_string.lower() for keyword in ['subtotaal', 'totaal', 'btw']):
+            return []
+        
+        # Try to parse as simple description with amount
+        amount_pattern = r'€\s*(\d+[.,]\d{2})'
+        match = re.search(amount_pattern, line_items_string)
+        
+        if match:
+            amount_str = match.group(1)
+            amount = self._parse_numeric_value(amount_str, remove_currency=True)
+            description = re.sub(amount_pattern, '', line_items_string).strip()
+            
+            if amount and description:
+                line_items.append({
+                    'description': description,
+                    'quantity': 1,
+                    'unit_price': amount,
+                    'total_amount': amount
+                })
+        else:
+            # If no amount found, try to use the whole string as description
+            # This is a fallback for poorly extracted data
+            line_items.append({
+                'description': line_items_string,
+                'quantity': 1,
+                'unit_price': 0.0,
+                'total_amount': 0.0
+            })
+        
+        return line_items
     
     def _extract_line_items_from_text(self, text: str) -> List[Dict[str, Any]]:
         """Extract line items from invoice text when no table structure is found."""

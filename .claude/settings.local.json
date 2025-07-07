@@ -28,7 +28,13 @@
       "Bash(mv:*)",
       "Bash(git tag:*)",
       "Bash(gh run list:*)",
-      "Bash(export PYTHONPATH=\"$PWD:$PYTHONPATH\")"
+      "Bash(export PYTHONPATH=\"$PWD:$PYTHONPATH\")",
+      "Bash(gh pr:*)",
+      "Bash(git checkout:*)",
+      "Bash(npm install)",
+      "Bash(git merge:*)",
+      "Bash(git branch:*)",
+      "WebFetch(domain:www.hostfact.nl)"
     ],
     "deny": []
   }
