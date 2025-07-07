@@ -1,8 +1,8 @@
 """PDF2UBL - Convert PDF invoices to UBL XML format."""
 
 __version__ = "1.0.0"
-__author__ = "PDF2UBL Project"
-__email__ = "info@pdf2ubl.com"
+__author__ = "Brouwer ICT"
+__email__ = "onno@brouwerict.com"
 
 from .extractors.pdf_extractor import PDFExtractor
 from .exporters.ubl_exporter import UBLExporter
