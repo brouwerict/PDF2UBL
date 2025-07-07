@@ -20,7 +20,12 @@
       "Bash(rm:*)",
       "Bash(sed:*)",
       "Bash(rg:*)",
-      "Bash(xmllint:*)"
+      "Bash(xmllint:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }
