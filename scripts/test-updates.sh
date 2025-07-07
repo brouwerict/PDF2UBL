@@ -11,7 +11,11 @@ git checkout feature/dependency-updates
 git pull origin feature/dependency-updates
 
 # Update dependencies
-pip3 install -r requirements.txt
+echo "🐍 Installing Python dependencies..."
+pip3 install -r requirements.txt 2>/dev/null || {
+    echo "⚠️ Normal pip install failed, trying with --break-system-packages..."
+    pip3 install -r requirements.txt --break-system-packages
+}
 
 # Build frontend if Node.js available
 if command -v npm &> /dev/null; then

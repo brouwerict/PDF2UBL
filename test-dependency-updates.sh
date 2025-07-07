@@ -47,7 +47,17 @@ fi
 
 # Install Python dependencies
 echo "🐍 Installing Python dependencies..."
-pip3 install -r requirements.txt
+if command -v pip3 &> /dev/null; then
+    # Try normal install first
+    pip3 install -r requirements.txt 2>/dev/null || {
+        echo "⚠️ Normal pip install failed, trying with --break-system-packages..."
+        pip3 install -r requirements.txt --break-system-packages
+    }
+else
+    echo "⚠️ pip3 not found, trying with apt packages..."
+    sudo apt update
+    sudo apt install -y python3-pip python3-pymupdf python3-lxml python3-pandas python3-numpy
+fi
 
 # Test basic functionality
 echo "🧪 Testing basic imports..."
