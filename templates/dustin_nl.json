@@ -1,0 +1,182 @@
+{
+  "template_id": "dustin_nl",
+  "name": "Dustin Nederland",
+  "description": "Template voor Dustin facturen",
+  "version": "1.0",
+  "supplier_patterns": [
+    {
+      "pattern": "BON\\s+Pg",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Dustin BON pattern",
+      "description": null,
+      "priority": 12
+    },
+    {
+      "pattern": "Wijchenseweg\\s+20",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Dustin address",
+      "description": null,
+      "priority": 10
+    }
+  ],
+  "supplier_name": "Dustin Nederland",
+  "supplier_aliases": [
+    "Dustin"
+  ],
+  "extraction_rules": [
+    {
+      "field_name": "invoice_number",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Klantnummer\\s+Factuurnummer\\s+Factuurdatum[\\s\\S]*?\\n[\\s]*\\d+\\s+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dustin invoice number",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "(Dustin Nederland B\\.V\\.)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dustin Nederland B.V. company name",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": "Dustin Nederland B.V."
+    },
+    {
+      "field_name": "supplier_vat_number",
+      "field_type": "vat_number",
+      "patterns": [
+        {
+          "pattern": "BTW-nummer:\\s*([A-Z]{2}\\d{9}B\\d{2})",
+          "method": "regex",
+          "field_type": "vat_number",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dustin BTW nummer",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "total_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Betaald\\s+Bedrag:[\\s\\S]*?(\\d+[.,]\\d{2})\\s+0,00",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dustin betaald bedrag",
+          "description": null,
+          "priority": 20
+        },
+        {
+          "pattern": "TOTAAL\\s+(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dustin totaal bedrag",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "vat_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "21\\s*%\\s+[\\d.,]+\\s+(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dustin BTW bedrag",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "invoice_date",
+      "field_type": "date",
+      "patterns": [
+        {
+          "pattern": "Factuurdatum\\s*\\n[\\s\\S]*?(\\d{2}\\.\\d{2}\\.\\d{4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dustin factuurdatum",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    }
+  ],
+  "table_rules": [],
+  "language": "nl",
+  "currency": "EUR",
+  "date_format": "%d.%m.%Y",
+  "decimal_separator": ",",
+  "thousands_separator": ".",
+  "ocr_enabled": false,
+  "ml_enabled": false,
+  "fallback_enabled": true,
+  "strict_mode": false,
+  "min_confidence": 0.3,
+  "created_date": "2025-07-06T18:41:51.598968",
+  "updated_date": "2025-07-06T18:41:51.598968",
+  "created_by": "system",
+  "usage_count": 0,
+  "success_rate": 0.0
+}

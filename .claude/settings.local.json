@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)",
+      "Bash(pip install:*)",
+      "Bash(python3:*)",
+      "Bash(source:*)",
+      "Bash(pip uninstall:*)",
+      "Bash(./pdf2ubl.py:*)",
+      "Bash(python:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(npm run build:*)",
+      "Bash(pip3 install:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(kill:*)",
+      "Bash(rm:*)",
+      "Bash(sed:*)",
+      "Bash(rg:*)",
+      "Bash(xmllint:*)"
+    ],
+    "deny": []
+  }
+}

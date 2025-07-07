@@ -1,0 +1,616 @@
+{
+  "template_id": "generic_nl",
+  "name": "Generic Dutch Invoice",
+  "description": "Generic template for Dutch invoices",
+  "version": "1.0",
+  "supplier_patterns": [],
+  "supplier_name": null,
+  "supplier_aliases": [],
+  "extraction_rules": [
+    {
+      "field_name": "invoice_number",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Factuurnummer[:\\s]+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dutch Factuurnummer (exact)",
+          "description": null,
+          "priority": 10
+        },
+        {
+          "pattern": "Incasso\\s+factuur\\s+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve incasso factuur",
+          "description": null,
+          "priority": 15
+        },
+        {
+          "pattern": "Factuur\\s+([A-Z]{3}\\d{6})",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "DECTDirect invoice format",
+          "description": null,
+          "priority": 15
+        },
+        {
+          "pattern": "FACTUURNUMMER[\\s]+DEBITEURNUMMER[\\s]+FACTUURDATUM[\\s\\S]*?\\n([0-9]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX invoice number pattern",
+          "description": null,
+          "priority": 12
+        },
+        {
+          "pattern": "factuur(?:nummer|nr\\.?)[:\\s]+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "Dutch factuur nummer/nr",
+          "description": null,
+          "priority": 8
+        },
+        {
+          "pattern": "factuur[:\\s#-]+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.7,
+          "validation_pattern": null,
+          "name": "Dutch factuur general",
+          "description": null,
+          "priority": 6
+        },
+        {
+          "pattern": "Invoice(?:\\s+Number)?[:\\s]+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "English Invoice Number",
+          "description": null,
+          "priority": 5
+        },
+        {
+          "pattern": "Klantnummer\\s+Factuurnummer\\s+Factuurdatum[\\s\\S]*?\\n[\\s]*\\d+\\s+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "123-Accu/Dustin invoice number pattern",
+          "description": null,
+          "priority": 18
+        },
+        {
+          "pattern": "(?:Nr\\.|Nummer)[:\\s]+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.6,
+          "validation_pattern": null,
+          "name": "Generic number field",
+          "description": null,
+          "priority": 3
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "invoice_date",
+      "field_type": "date",
+      "patterns": [
+        {
+          "pattern": "Factuurdatum[:\\s]+(\\d{1,2}[-/]\\d{1,2}[-/]\\d{2,4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dutch Factuurdatum (exact)",
+          "description": null,
+          "priority": 10
+        },
+        {
+          "pattern": "factuurdatum[:\\s]+(\\d{1,2}[-/]\\d{1,2}[-/]\\d{2,4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "Dutch factuurdatum",
+          "description": null,
+          "priority": 8
+        },
+        {
+          "pattern": "(?:Invoice\\s+)?Date[:\\s]+(\\d{1,2}[-/]\\d{1,2}[-/]\\d{2,4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "English invoice date",
+          "description": null,
+          "priority": 7
+        },
+        {
+          "pattern": "datum[:\\s]+(\\d{1,2}[-/]\\d{1,2}[-/]\\d{2,4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.7,
+          "validation_pattern": null,
+          "name": "Dutch datum field",
+          "description": null,
+          "priority": 5
+        },
+        {
+          "pattern": "(\\d{1,2}[-/]\\d{1,2}[-/]\\d{4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.4,
+          "validation_pattern": null,
+          "name": "Generic date pattern",
+          "description": null,
+          "priority": 2
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "total_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Totaal(?:\\s+bedrag)?[:\\s]*€?\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dutch Totaal (exact)",
+          "description": null,
+          "priority": 10
+        },
+        {
+          "pattern": "totaal(?:\\s+bedrag)?[:\\s]*€?\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "Dutch totaal amount",
+          "description": null,
+          "priority": 8
+        },
+        {
+          "pattern": "(?:Total|Grand\\s+Total)[:\\s]*€?\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "English total amount",
+          "description": null,
+          "priority": 7
+        },
+        {
+          "pattern": "Te\\s+betalen[:\\s]*€?\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dutch te betalen (exact)",
+          "description": null,
+          "priority": 12
+        },
+        {
+          "pattern": "Totaal\\s+incl\\.\\s+BTW\\s+€\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX total incl BTW",
+          "description": null,
+          "priority": 13
+        },
+        {
+          "pattern": "Totaal\\s+te\\s+betalen\\s+€\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Opslagruimte Haaksbergen total",
+          "description": null,
+          "priority": 14
+        },
+        {
+          "pattern": "€\\s*(\\d{2,3}[.,]\\d{2})\\s*$",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.7,
+          "validation_pattern": null,
+          "name": "123-Accu total amount at line end",
+          "description": null,
+          "priority": 11
+        },
+        {
+          "pattern": "€\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.5,
+          "validation_pattern": null,
+          "name": "Euro amount with thousands",
+          "description": null,
+          "priority": 4
+        },
+        {
+          "pattern": "€\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.5,
+          "validation_pattern": null,
+          "name": "Euro amount simple",
+          "description": null,
+          "priority": 3
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_vat_number",
+      "field_type": "vat_number",
+      "patterns": [
+        {
+          "pattern": "btw[:\\s-]*(?:nr|nummer)?[:\\s]*([A-Z]{2}\\d{9}B\\d{2})",
+          "method": "regex",
+          "field_type": "vat_number",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dutch VAT number",
+          "description": null,
+          "priority": 0
+        },
+        {
+          "pattern": "([A-Z]{2}\\d{9}B\\d{2})",
+          "method": "regex",
+          "field_type": "vat_number",
+          "case_sensitive": false,
+          "confidence_threshold": 0.7,
+          "validation_pattern": null,
+          "name": "VAT number pattern",
+          "description": null,
+          "priority": 0
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "([A-Z][a-zA-Z]+\\s+B\\.V\\.)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Company name B.V. pattern",
+          "description": null,
+          "priority": 15
+        },
+        {
+          "pattern": "^(123accu\\s+B\\.V\\.)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "123-Accu company name",
+          "description": null,
+          "priority": 16
+        },
+        {
+          "pattern": "^(Proserve\\s+B\\.V\\.)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve company name",
+          "description": null,
+          "priority": 16
+        },
+        {
+          "pattern": "(DectDirect\\.NL)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "DectDirect supplier",
+          "description": null,
+          "priority": 16
+        },
+        {
+          "pattern": "^(Opslagruimte-Haaksbergen)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Opslagruimte Haaksbergen supplier",
+          "description": null,
+          "priority": 16
+        },
+        {
+          "pattern": "^(WeServit)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "WeServit supplier",
+          "description": null,
+          "priority": 16
+        },
+        {
+          "pattern": "^(\\w+[-]?\\w+)\\s*$",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.6,
+          "validation_pattern": null,
+          "name": "General supplier pattern",
+          "description": null,
+          "priority": 10
+        },
+        {
+          "pattern": ".*@(vdx)\\.nl",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "VDX company from email",
+          "description": null,
+          "priority": 14
+        },
+        {
+          "pattern": "^([A-Z][a-zA-Z\\s&]+(?:B\\.?V\\.?|BV|Ltd\\.?|Inc\\.?|N\\.?V\\.?))\\s*$",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.7,
+          "validation_pattern": null,
+          "name": "Dutch company name (mixed case)",
+          "description": null,
+          "priority": 8
+        },
+        {
+          "pattern": "^([A-Z][a-zA-Z\\s&'-]+)\\s*$",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.6,
+          "validation_pattern": null,
+          "name": "General company name",
+          "description": null,
+          "priority": 5
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "vat_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "BTW\\s+21%[:\\s]*€?\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dutch BTW 21%",
+          "description": null,
+          "priority": 10
+        },
+        {
+          "pattern": "21%\\s+BTW\\s+€\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX BTW format",
+          "description": null,
+          "priority": 12
+        },
+        {
+          "pattern": "btw\\s+bedrag\\s+[\\s\\S]*?€\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "123-Accu BTW amount",
+          "description": null,
+          "priority": 11
+        },
+        {
+          "pattern": "BTW[:\\s]*€?\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "Dutch BTW general",
+          "description": null,
+          "priority": 8
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "net_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Subtotaal[:\\s]*€?\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Dutch Subtotaal",
+          "description": null,
+          "priority": 10
+        },
+        {
+          "pattern": "Totaal\\s+excl\\.\\s+BTW\\s+€\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX total excl BTW",
+          "description": null,
+          "priority": 12
+        },
+        {
+          "pattern": "Totaal\\s+excl\\s+btw\\s+€\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Opslagruimte net amount",
+          "description": null,
+          "priority": 12
+        },
+        {
+          "pattern": "subtotaal[:\\s]*€?\\s*(\\d{1,3}(?:[.,]\\d{3})*[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "Dutch subtotaal lowercase",
+          "description": null,
+          "priority": 8
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "line_items_text",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "^(.+?)\\s*€\\s*(\\d+[.,]\\d{2})$",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.7,
+          "validation_pattern": null,
+          "name": "Line items with prices",
+          "description": null,
+          "priority": 8
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    }
+  ],
+  "table_rules": [
+    {
+      "table_name": "line_items",
+      "header_patterns": [
+        "beschrijving|description",
+        "aantal|quantity",
+        "prijs|price",
+        "bedrag|amount"
+      ],
+      "column_mapping": {
+        "beschrijving": "description",
+        "description": "description",
+        "aantal": "quantity",
+        "quantity": "quantity",
+        "prijs": "unit_price",
+        "price": "unit_price",
+        "bedrag": "total_amount",
+        "amount": "total_amount"
+      },
+      "required_columns": [
+        "description"
+      ],
+      "min_rows": 0
+    }
+  ],
+  "language": "nl",
+  "currency": "EUR",
+  "date_format": "%d-%m-%Y",
+  "decimal_separator": ",",
+  "thousands_separator": ".",
+  "ocr_enabled": false,
+  "ml_enabled": false,
+  "fallback_enabled": true,
+  "strict_mode": false,
+  "min_confidence": 0.3,
+  "created_date": "2025-07-06T17:13:20.935471",
+  "updated_date": "2025-07-06T17:13:20.935475",
+  "created_by": "system",
+  "usage_count": 0,
+  "success_rate": 0.0
+}

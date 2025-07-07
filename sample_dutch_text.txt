@@ -1,0 +1,23 @@
+TESTBEDRIJF B.V.
+Hoofdstraat 456
+9876 ZX Utrecht
+BTW nr: NL987654321B01
+
+FACTUUR
+
+Factuurnummer: INV-2024-0042
+Factuurdatum: 28-12-2024
+
+Omschrijving                    Aantal    Prijs      Bedrag
+Consultancy services               10    € 125,00   € 1.250,00
+Project management                  1    € 500,00   €   500,00
+
+Subtotaal:                                          € 1.750,00
+BTW 21%:                                            €   367,50
+Totaal:                                             € 2.117,50
+
+Te betalen: € 2.117,50
+
+Betalingsinformatie:
+IBAN: NL12ABNA0123456789
+BIC: ABNANL2A

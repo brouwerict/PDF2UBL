@@ -1,0 +1,206 @@
+{
+  "template_id": "vdx_nl",
+  "name": "VDX Nederland",
+  "description": "Template voor VDX facturen",
+  "version": "1.0",
+  "supplier_patterns": [
+    {
+      "pattern": ".*@vdx\\.nl",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.9,
+      "name": "VDX email pattern",
+      "description": null,
+      "priority": 15
+    },
+    {
+      "pattern": "\\bVDX\\b",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "VDX name",
+      "description": null,
+      "priority": 12
+    }
+  ],
+  "supplier_name": "VDX",
+  "supplier_aliases": [
+    "VDX"
+  ],
+  "extraction_rules": [
+    {
+      "field_name": "invoice_number",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "FACTUURNUMMER[\\s]+DEBITEURNUMMER[\\s]+FACTUURDATUM[\\s\\S]*?\\n([0-9]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX invoice number",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "(VDX)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX company name",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": "VDX"
+    },
+    {
+      "field_name": "supplier_vat_number",
+      "field_type": "vat_number",
+      "patterns": [
+        {
+          "pattern": "BTW\\s*nr\\.?\\s*:?\\s*([A-Z]{2}\\d{9}B\\d{2})",
+          "method": "regex",
+          "field_type": "vat_number",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX BTW nummer",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "total_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Totaal\\s+incl\\.\\s+BTW\\s+€\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX totaal incl BTW",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "vat_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "21%\\s+BTW\\s+€\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX BTW bedrag",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "net_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Subtotaal\\s+€\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX subtotaal (excl BTW)",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "invoice_date",
+      "field_type": "date",
+      "patterns": [
+        {
+          "pattern": "FACTUURDATUM[\\s\\S]*?\\n\\d+\\s+\\d+\\s+(\\d{2}/\\d{2}/\\d{4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "VDX factuurdatum",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    }
+  ],
+  "table_rules": [
+    {
+      "table_name": "line_items",
+      "header_patterns": [
+        "Omschrijving\\s+Aantal\\s+Eenheidsprijs\\s+Bedrag"
+      ],
+      "column_mapping": {
+        "omschrijving": "description",
+        "aantal": "quantity", 
+        "eenheidsprijs": "unit_price",
+        "bedrag": "total_amount"
+      },
+      "numeric_columns": ["quantity", "unit_price", "total_amount"],
+      "required_columns": ["description"],
+      "min_rows": 1
+    }
+  ],
+  "language": "nl",
+  "currency": "EUR",
+  "date_format": "%d/%m/%Y",
+  "decimal_separator": ",",
+  "thousands_separator": ".",
+  "ocr_enabled": false,
+  "ml_enabled": false,
+  "fallback_enabled": true,
+  "strict_mode": false,
+  "min_confidence": 0.3,
+  "created_date": "2025-07-06T18:41:51.602103",
+  "updated_date": "2025-07-06T18:41:51.602103",
+  "created_by": "system",
+  "usage_count": 0,
+  "success_rate": 0.0
+}

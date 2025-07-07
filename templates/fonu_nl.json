@@ -1,0 +1,236 @@
+{
+  "template_id": "fonu_nl",
+  "name": "Fonu",
+  "description": "Template voor Fonu facturen",
+  "version": "1.0",
+  "supplier_patterns": [
+    {
+      "pattern": "Fonu\\s*\\nMient\\s+2A",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Fonu company name and address",
+      "description": null,
+      "priority": 15
+    },
+    {
+      "pattern": "BTW:\\s*NL859287051B01",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.9,
+      "name": "Fonu BTW nummer",
+      "description": null,
+      "priority": 12
+    },
+    {
+      "pattern": "KVK:\\s*72921129",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.9,
+      "name": "Fonu KVK nummer",
+      "description": null,
+      "priority": 10
+    }
+  ],
+  "supplier_name": "Fonu",
+  "supplier_aliases": [
+    "Fonu"
+  ],
+  "extraction_rules": [
+    {
+      "field_name": "invoice_number",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Factuurnummer:\\s*([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu invoice number",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "^(Fonu)\\s*$",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu company name",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": "Fonu"
+    },
+    {
+      "field_name": "supplier_vat_number",
+      "field_type": "vat_number",
+      "patterns": [
+        {
+          "pattern": "BTW:\\s*([A-Z]{2}\\d{9}B\\d{2})",
+          "method": "regex",
+          "field_type": "vat_number",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu BTW nummer",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_address",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Fonu\\s*\\n(Mient\\s+2A,\\s+2903LC,\\s+Capelle\\s+aan\\s+den\\s+IJssel)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu address",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "total_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Totaal\\s+\\(incl\\.\\s+btw\\)\\s+€(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu totaal bedrag",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "vat_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "BTW\\s+€(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu BTW bedrag",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "net_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Subtotaal\\s+\\(excl\\.\\s+€(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu subtotaal bedrag",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "invoice_date",
+      "field_type": "date",
+      "patterns": [
+        {
+          "pattern": "Factuurdatum:\\s*(\\d{1,2}\\s+(?:januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\\s+\\d{4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fonu factuurdatum",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    }
+  ],
+  "table_rules": [
+    {
+      "table_name": "line_items",
+      "header_patterns": [
+        "Product\\s+Aantal\\s+Total"
+      ],
+      "column_mapping": {
+        "product": "description",
+        "aantal": "quantity",
+        "total": "total_amount"
+      },
+      "numeric_columns": ["quantity", "total_amount"],
+      "required_columns": ["description"],
+      "min_rows": 1
+    }
+  ],
+  "language": "nl",
+  "currency": "EUR",
+  "date_format": "%d %B %Y",
+  "decimal_separator": ",",
+  "thousands_separator": ".",
+  "ocr_enabled": false,
+  "ml_enabled": false,
+  "fallback_enabled": true,
+  "strict_mode": false,
+  "min_confidence": 0.3,
+  "created_date": "2025-07-07T10:30:00.000000",
+  "updated_date": "2025-07-07T10:30:00.000000",
+  "created_by": "system",
+  "usage_count": 0,
+  "success_rate": 0.0
+}

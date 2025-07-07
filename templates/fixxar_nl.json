@@ -1,0 +1,228 @@
+{
+  "template_id": "fixxar_nl",
+  "name": "Fixxar Nederland",
+  "description": "Template voor Fixxar facturen en kassabonnen",
+  "version": "1.0",
+  "supplier_patterns": [
+    {
+      "pattern": "(?i)fixxar|gfixxar",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Fixxar company name",
+      "description": "Matches Fixxar company name (with OCR variations)",
+      "priority": 15
+    },
+    {
+      "pattern": "alles in huis",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Fixxar slogan",
+      "description": "Matches Fixxar slogan",
+      "priority": 10
+    },
+    {
+      "pattern": "Doctor Prinsstraat 107",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Fixxar address",
+      "description": "Matches Fixxar Haaksbergen address",
+      "priority": 12
+    },
+    {
+      "pattern": "haaksbergen@fixxar\\.nl",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Fixxar email",
+      "description": "Matches Fixxar email address",
+      "priority": 12
+    }
+  ],
+  "supplier_name": "Fixxar Haaksbergen",
+  "supplier_aliases": [
+    "Fixxar",
+    "Gfixxar"
+  ],
+  "extraction_rules": [
+    {
+      "field_name": "invoice_number",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "#(\\d{2}-\\d{5})",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fixxar invoice number",
+          "description": "Matches invoice number pattern #XX-XXXXX",
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "(?i)((?:G|F)fixxar)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "cleanup_pattern": "(?i)Gfixxar",
+          "replacement_pattern": "Fixxar",
+          "name": "Fixxar company name",
+          "description": "Matches Fixxar company name with OCR variations",
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": "Fixxar Haaksbergen"
+    },
+    {
+      "field_name": "supplier_address",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "(Doctor Prinsstraat 107, Haaksbergen, Overijssel,\\s*7481EV)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fixxar address",
+          "description": "Matches complete Fixxar address",
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": "Doctor Prinsstraat 107, 7481EV Haaksbergen"
+    },
+    {
+      "field_name": "total_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Totaal\\s+€(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fixxar total amount",
+          "description": "Matches total amount after 'Totaal'",
+          "priority": 15
+        },
+        {
+          "pattern": "Kaart\\s+€(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.8,
+          "validation_pattern": null,
+          "name": "Fixxar card payment",
+          "description": "Matches card payment amount",
+          "priority": 10
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "vat_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Belasting,\\s*21%\\s+€(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fixxar VAT amount",
+          "description": "Matches VAT amount (21%)",
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "invoice_date",
+      "field_type": "date",
+      "patterns": [
+        {
+          "pattern": "(\\d{2}-\\d{2}-\\d{4})\\s+\\d{2}:\\d{2}",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Fixxar invoice date",
+          "description": "Matches date in DD-MM-YYYY format",
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    }
+  ],
+  "table_rules": [
+    {
+      "table_name": "line_items",
+      "header_patterns": [
+        "product|beschrijving",
+        "aantal|quantity",
+        "prijs|price",
+        "bedrag|amount"
+      ],
+      "column_mapping": {
+        "product": "description",
+        "beschrijving": "description",
+        "aantal": "quantity",
+        "quantity": "quantity",
+        "prijs": "unit_price",
+        "price": "unit_price",
+        "bedrag": "total_amount",
+        "amount": "total_amount"
+      },
+      "required_columns": [
+        "description"
+      ],
+      "min_rows": 0
+    }
+  ],
+  "language": "nl",
+  "currency": "EUR",
+  "date_format": "%d-%m-%Y",
+  "decimal_separator": ",",
+  "thousands_separator": ".",
+  "ocr_enabled": true,
+  "ml_enabled": false,
+  "fallback_enabled": true,
+  "strict_mode": false,
+  "min_confidence": 0.3,
+  "created_date": "2025-07-07T10:25:00.000000",
+  "updated_date": "2025-07-07T10:25:00.000000",
+  "created_by": "system",
+  "usage_count": 0,
+  "success_rate": 0.0
+}

@@ -1,0 +1,198 @@
+{
+  "template_id": "proserve_nl",
+  "name": "Proserve B.V.",
+  "description": "Template voor Proserve facturen",
+  "version": "1.0",
+  "supplier_patterns": [
+    {
+      "pattern": "Proserve\\s+B\\.V\\.",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.9,
+      "name": "Proserve company name",
+      "description": null,
+      "priority": 15
+    }
+  ],
+  "supplier_name": "Proserve B.V.",
+  "supplier_aliases": [
+    "Proserve"
+  ],
+  "extraction_rules": [
+    {
+      "field_name": "invoice_number",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Incasso\\s+factuur\\s+([A-Za-z0-9\\-/]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve incasso factuur",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "invoice_date",
+      "field_type": "date",
+      "patterns": [
+        {
+          "pattern": "Factuurdatum:\\s+(\\d{1,2}/\\d{1,2}/\\d{4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve factuurdatum",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "net_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Subtotaal\\s+€\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve subtotaal",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "vat_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "BTW\\s+21%\\s+€\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve BTW bedrag",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "total_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Totaal\\s+€\\s*(\\d+[.,]\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve totaal",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "(Proserve\\s+B\\.V\\.)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve company name",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.3,
+      "default_value": "Proserve B.V."
+    },
+    {
+      "field_name": "supplier_vat_number",
+      "field_type": "vat_number",
+      "patterns": [
+        {
+          "pattern": "BTW\\s*nr\\.?\\s*:?\\s*([A-Z]{2}\\d{9}B\\d{2})",
+          "method": "regex",
+          "field_type": "vat_number",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Proserve BTW nummer",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.3,
+      "default_value": null
+    }
+  ],
+  "table_rules": [
+    {
+      "table_name": "line_items",
+      "header_patterns": [
+        "Omschrijving\\s+Aantal\\s+Bedrag",
+        "Product\\s+Aantal\\s+Prijs"
+      ],
+      "column_mapping": {
+        "omschrijving": "description",
+        "product": "description",
+        "aantal": "quantity",
+        "bedrag": "total_amount",
+        "prijs": "unit_price"
+      },
+      "numeric_columns": ["quantity", "unit_price", "total_amount"],
+      "required_columns": ["description"],
+      "min_rows": 1
+    }
+  ],
+  "language": "nl",
+  "currency": "EUR",
+  "date_format": "%d-%m-%Y",
+  "decimal_separator": ",",
+  "thousands_separator": ".",
+  "ocr_enabled": false,
+  "ml_enabled": false,
+  "fallback_enabled": true,
+  "strict_mode": false,
+  "min_confidence": 0.3,
+  "created_date": "2025-07-06T18:41:51.597076",
+  "updated_date": "2025-07-06T18:41:51.597076",
+  "created_by": "system",
+  "usage_count": 0,
+  "success_rate": 0.0
+}

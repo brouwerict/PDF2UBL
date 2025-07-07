@@ -1,0 +1,345 @@
+{
+  "template_id": "coolblue_nl",
+  "name": "Coolblue Netherlands",
+  "description": "Template voor Coolblue B.V. facturen",
+  "version": "2.0",
+  "supplier_patterns": [
+    {
+      "pattern": "Coolblue B\\.V\\.",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.9,
+      "name": "Coolblue company name",
+      "description": "Matches Coolblue B.V. company name",
+      "priority": 20
+    },
+    {
+      "pattern": "Weena 664",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Coolblue address",
+      "description": "Coolblue address pattern",
+      "priority": 15
+    },
+    {
+      "pattern": "www\\.coolblue\\.nl",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.8,
+      "name": "Coolblue website",
+      "description": "Coolblue website URL",
+      "priority": 15
+    },
+    {
+      "pattern": "Alles voor een glimlach",
+      "method": "regex",
+      "field_type": "text",
+      "case_sensitive": false,
+      "confidence_threshold": 0.9,
+      "name": "Coolblue slogan",
+      "description": "Coolblue company slogan",
+      "priority": 18
+    }
+  ],
+  "supplier_name": "Coolblue B.V.",
+  "supplier_aliases": [
+    "Coolblue",
+    "Coolblue Nederland"
+  ],
+  "extraction_rules": [
+    {
+      "field_name": "invoice_number",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Factuurnummer\\s+(\\d{10})",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.95,
+          "validation_pattern": "^\\d{10}$",
+          "name": "Coolblue invoice number",
+          "description": "10-digit invoice number",
+          "priority": 20
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.8,
+      "default_value": null
+    },
+    {
+      "field_name": "invoice_date",
+      "field_type": "date",
+      "patterns": [
+        {
+          "pattern": "Factuurdatum\\s+(\\d{1,2}\\s+\\w+\\s+\\d{4})",
+          "method": "regex",
+          "field_type": "date",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Coolblue invoice date",
+          "description": "Dutch date format",
+          "priority": 20
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.8,
+      "default_value": null
+    },
+    {
+      "field_name": "supplier_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "(Coolblue B\\.V\\.)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.95,
+          "validation_pattern": null,
+          "name": "Coolblue supplier name",
+          "description": null,
+          "priority": 20
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.8,
+      "default_value": "Coolblue B.V."
+    },
+    {
+      "field_name": "supplier_address",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Weena 664\\s*\\n\\s*3012 CN Rotterdam\\s*\\n\\s*Nederland",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Coolblue full address",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.7,
+      "default_value": "Weena 664, 3012 CN Rotterdam, Nederland"
+    },
+    {
+      "field_name": "supplier_vat_number",
+      "field_type": "vat_number",
+      "patterns": [
+        {
+          "pattern": "BTW\\s+([A-Z]{2}\\d{9}B\\d{2})",
+          "method": "regex",
+          "field_type": "vat_number",
+          "case_sensitive": false,
+          "confidence_threshold": 0.95,
+          "validation_pattern": "^NL\\d{9}B\\d{2}$",
+          "name": "Coolblue BTW number",
+          "description": null,
+          "priority": 20
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.8,
+      "default_value": "NL810433941B01"
+    },
+    {
+      "field_name": "supplier_iban",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "IBAN\\s+([A-Z]{2}\\d{2}[A-Z]{4}\\d{10})",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "confidence_threshold": 0.95,
+          "validation_pattern": null,
+          "name": "Coolblue IBAN",
+          "description": null,
+          "priority": 20
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.8,
+      "default_value": null
+    },
+    {
+      "field_name": "customer_name",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "Per slot van rekening\\.\\s*\\n[\\s\\S]*?\\n([^\\n]+?)\\s*\\n\\s*www\\.coolblue\\.nl",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.85,
+          "validation_pattern": null,
+          "name": "Coolblue customer name",
+          "description": "Customer company name",
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.7,
+      "default_value": null
+    },
+    {
+      "field_name": "customer_address",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "t\\.a\\.v\\.\\s+[^\\n]+\\s*\\n([^\\n]+\\s*\\n[^\\n]+)",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.85,
+          "validation_pattern": null,
+          "name": "Coolblue customer address",
+          "description": null,
+          "priority": 15
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.7,
+      "default_value": null
+    },
+    {
+      "field_name": "total_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Totaal\\s+€\\s*([\\d\\.]+,\\d{2})\\s*\\n\\s*Totaal\\s+€\\s*\\1",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.95,
+          "validation_pattern": null,
+          "name": "Coolblue total amount double check",
+          "description": "Total amount appears twice",
+          "priority": 25
+        },
+        {
+          "pattern": "Totaal\\s+€\\s*([\\d\\.]+,\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Coolblue total amount",
+          "description": null,
+          "priority": 20
+        }
+      ],
+      "required": true,
+      "min_confidence": 0.8,
+      "default_value": null
+    },
+    {
+      "field_name": "net_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "Exclusief BTW\\s+€\\s*([\\d\\.]+,\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.95,
+          "validation_pattern": null,
+          "name": "Coolblue net amount",
+          "description": "Amount excluding VAT",
+          "priority": 20
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.8,
+      "default_value": null
+    },
+    {
+      "field_name": "vat_amount",
+      "field_type": "amount",
+      "patterns": [
+        {
+          "pattern": "BTW\\s+21%\\s+€\\s*([\\d\\.]+,\\d{2})",
+          "method": "regex",
+          "field_type": "amount",
+          "case_sensitive": false,
+          "confidence_threshold": 0.95,
+          "validation_pattern": null,
+          "name": "Coolblue VAT 21% amount",
+          "description": null,
+          "priority": 20
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.8,
+      "default_value": null
+    },
+    {
+      "field_name": "line_items_text",
+      "field_type": "text",
+      "patterns": [
+        {
+          "pattern": "^(.+?)\\s+(\\d+)\\s+€\\s*([\\d\\.]+,\\d{2})\\s+(\\d+)%\\s+€\\s*([\\d\\.]+,\\d{2})$",
+          "method": "regex",
+          "field_type": "text",
+          "case_sensitive": false,
+          "multiline": true,
+          "confidence_threshold": 0.9,
+          "validation_pattern": null,
+          "name": "Coolblue line item pattern",
+          "description": "Matches product lines with quantity, unit price, VAT %, and total",
+          "priority": 20
+        }
+      ],
+      "required": false,
+      "min_confidence": 0.7,
+      "default_value": null
+    }
+  ],
+  "table_rules": [
+    {
+      "table_name": "line_items",
+      "header_patterns": [
+        "Artikel\\s+Aantal\\s+per stuk\\s+BTW\\s+incl\\.\\s+BTW"
+      ],
+      "column_mapping": {
+        "artikel": "description",
+        "aantal": "quantity",
+        "per stuk": "unit_price",
+        "btw": "vat_percentage",
+        "incl. btw": "total_amount"
+      },
+      "required_columns": [
+        "description"
+      ],
+      "min_rows": 1
+    }
+  ],
+  "language": "nl",
+  "currency": "EUR",
+  "date_format": "%d %B %Y",
+  "decimal_separator": ",",
+  "thousands_separator": ".",
+  "ocr_enabled": false,
+  "ml_enabled": false,
+  "fallback_enabled": true,
+  "strict_mode": false,
+  "min_confidence": 0.7,
+  "created_date": "2025-07-07T13:41:00.000000",
+  "updated_date": "2025-07-07T13:41:00.000000",
+  "created_by": "assistant",
+  "usage_count": 0,
+  "success_rate": 0.0
+}
