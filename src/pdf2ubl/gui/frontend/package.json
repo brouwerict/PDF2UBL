@@ -25,7 +25,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/x-data-grid": "^5.15.1",
-    "react-ace": "^10.1.0",
+    "react-ace": "^14.0.1",
     "ace-builds": "^1.8.1",
     "recharts": "^2.5.0",
     "notistack": "^2.0.5"
