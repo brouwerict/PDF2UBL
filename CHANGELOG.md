@@ -5,6 +5,39 @@ All notable changes to PDF2UBL will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2024-01-07
+
+### Added
+- **Multi-file Upload**: Batch processing with ZIP download support
+- **Deployment Scripts**: Automated update scripts for production
+- **Docker Compose**: Production-ready container orchestration
+- **Security Policy**: Comprehensive security documentation (SECURITY.md)
+- **CI/CD Pipeline**: Automated testing and security scanning
+
+### Security
+- **Path Traversal Protection**: Fixed high-priority security vulnerabilities
+- **Input Validation**: Added directory restrictions for file operations
+- **API Sanitization**: Prevented malicious path access in templates and ML APIs
+- **Dependency Scanning**: Automated vulnerability detection with Trivy and CodeQL
+
+### Improved
+- **Web Interface**: Enhanced batch conversion with progress tracking
+- **Error Handling**: Better error messages and fallback mechanisms
+- **Documentation**: Updated installation guides with network access instructions
+- **CI/CD Reliability**: Made pipeline more resilient with continue-on-error
+
+### Fixed
+- **Frontend Build**: Resolved "React frontend is not built yet" for fresh clones
+- **Security Alerts**: Addressed CodeQL and Trivy vulnerability findings
+- **Workflow Stability**: Fixed YAML syntax errors in GitHub Actions
+- **Script Portability**: Update scripts now work from any directory
+
+### Technical
+- **GitHub Actions**: Updated deprecated actions to latest versions
+- **Security Scanning**: Enhanced Trivy and CodeQL integration
+- **Container Health**: Added health checks and restart policies
+- **Volume Mounting**: Proper file handling for uploads
+
 ## [1.0.0] - 2024-01-07
 
 ### Added
