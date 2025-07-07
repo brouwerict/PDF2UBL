@@ -1,0 +1,61 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  trivy-scan:
+    name: Trivy Security Scan
+    runs-on: ubuntu-latest
+    if: github.repository == 'brouwerict/PDF2UBL'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run Trivy vulnerability scanner (simple)
+      run: |
+        # Install Trivy
+        sudo apt-get update
+        sudo apt-get install wget apt-transport-https gnupg lsb-release
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update
+        sudo apt-get install trivy
+        
+        # Run filesystem scan
+        echo "Running Trivy filesystem scan..."
+        trivy fs --security-checks vuln,secret --severity HIGH,CRITICAL --format table . || true
+        
+        # Generate SARIF report
+        echo "Generating SARIF report..."
+        trivy fs --security-checks vuln,secret --severity HIGH,CRITICAL --format sarif --output trivy-results.sarif . || true
+    
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      continue-on-error: true
+      with:
+        sarif_file: trivy-results.sarif
+    
+    - name: Show scan summary
+      if: always()
+      run: |
+        echo "Security scan completed"
+        if [ -f trivy-results.sarif ]; then
+          echo "✓ SARIF report generated successfully"
+          wc -l trivy-results.sarif || true
+        else
+          echo "⚠ No SARIF report generated"
+        fi
