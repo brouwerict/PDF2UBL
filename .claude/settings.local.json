@@ -34,7 +34,8 @@
       "Bash(npm install)",
       "Bash(git merge:*)",
       "Bash(git branch:*)",
-      "WebFetch(domain:www.hostfact.nl)"
+      "WebFetch(domain:www.hostfact.nl)",
+      "Bash(true)"
     ],
     "deny": []
   }

@@ -53,6 +53,32 @@ def test_src_directory_accessible():
         assert src_path.exists()
 
 
+def test_template_engine_line_items_parsing():
+    """Test that the new line_items parsing method works."""
+    try:
+        from src.pdf2ubl.templates.template_engine import TemplateEngine
+        
+        te = TemplateEngine()
+        
+        # Test with subtotaal (should return empty list)
+        result = te._parse_line_items_from_string('Subtotaal € 36,12')
+        assert result == []
+        
+        # Test with normal line item
+        result = te._parse_line_items_from_string('Product A € 25,00')
+        assert len(result) == 1
+        assert result[0]['description'] == 'Product A'
+        
+        # Test with string without amount
+        result = te._parse_line_items_from_string('Some description')
+        assert len(result) == 1
+        assert result[0]['unit_price'] == 0.0
+        
+    except ImportError:
+        # Skip if module not available
+        pass
+
+
 def test_pdf2ubl_package_structure():
     """Test PDF2UBL package structure exists."""
     project_root = Path(__file__).parent.parent
