@@ -46,12 +46,40 @@ PDF2UBL heeft geoptimaliseerde templates voor:
 
 - Python 3.8 of hoger
 - pip (Python package manager)
+- Node.js 16+ en npm (voor de web interface)
 
-### Dependencies Installeren
+### Snelle Installatie
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/brouwerict/PDF2UBL.git
+cd PDF2UBL
+./setup.sh  # Dit installeert alles automatisch
 ```
+
+### Handmatige Installatie
+
+1. **Clone de repository**
+   ```bash
+   git clone https://github.com/brouwerict/PDF2UBL.git
+   cd PDF2UBL
+   ```
+
+2. **Python dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Web interface bouwen**
+   ```bash
+   # Installeer Node.js als je dat nog niet hebt
+   sudo apt-get install nodejs npm  # Ubuntu/Debian
+   
+   # Bouw de frontend
+   cd src/pdf2ubl/gui/frontend
+   npm install
+   npm run build
+   cd ../../../..
+   ```
 
 ### Optionele OCR Support
 
@@ -91,7 +119,9 @@ python3 -m src.pdf2ubl.cli batch pdf_directory/ -o xml_output/
 ### 4. Web GUI Starten
 
 ```bash
+# Zorg eerst dat de frontend gebouwd is (zie installatie)
 python3 -m src.pdf2ubl.cli gui
+# Open browser: http://localhost:8000
 ```
 
 ### 5. Test UBL Genereren
