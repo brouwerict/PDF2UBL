@@ -121,7 +121,11 @@ python3 -m src.pdf2ubl.cli batch pdf_directory/ -o xml_output/
 ```bash
 # Zorg eerst dat de frontend gebouwd is (zie installatie)
 python3 -m src.pdf2ubl.cli gui
-# Open browser: http://localhost:8000
+
+# Voor toegang vanaf andere apparaten in het netwerk:
+python3 -m src.pdf2ubl.cli gui --host 0.0.0.0 --port 8000
+
+# Open browser: http://localhost:8000 of http://[server-ip]:8000
 ```
 
 ### 5. Test UBL Genereren

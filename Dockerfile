@@ -52,5 +52,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --quiet --tries=1 --spider http://localhost:8000/api/health || exit 1
 
-# Run the application
+# Run the application (listen on all interfaces for container access)
 CMD ["python3", "-m", "src.pdf2ubl.cli", "gui", "--host", "0.0.0.0", "--port", "8000"]

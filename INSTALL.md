@@ -190,10 +190,16 @@ After installation:
 
 1. Start the web interface:
    ```bash
+   # For local access only
    python3 -m src.pdf2ubl.cli gui
+   
+   # For network access (access from other devices)
+   python3 -m src.pdf2ubl.cli gui --host 0.0.0.0 --port 8000
    ```
 
-2. Open your browser to: http://localhost:8000
+2. Open your browser to:
+   - Local: http://localhost:8000
+   - Network: http://[your-server-ip]:8000
 
 3. Or use the CLI directly:
    ```bash
