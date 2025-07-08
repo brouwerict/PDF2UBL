@@ -7,6 +7,7 @@ from pathlib import Path
 import tempfile
 import logging
 import json
+import re
 from datetime import datetime
 
 from ..ml.template_generator import TemplateGenerator
